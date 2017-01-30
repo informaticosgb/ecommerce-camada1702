@@ -1,0 +1,125 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    title= shopTitle
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
+    link(href='/stylesheets/shop-homepage.css', rel='stylesheet')
+    script(src='https://code.jquery.com/jquery-3.1.1.js', integrity='sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=', crossorigin='anonymous')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
+    script(src="https://use.fontawesome.com/12c47047e2.js")
+  body
+    .nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+      .container
+        .navbar-header
+          .button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+            .span.sr-only Toggle navigation
+            .span.icon-bar
+            .span.icon-bar
+            .span.icon-bar
+          a.navbar-brand(href='/') #{ shopTitle }
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse.nav.navbar-nav.navbar-right
+          ul.nav.navbar-nav
+            if isAuth
+              li
+                a(href='#', data-toggle='modal', data-target='#modalAdd') Añadir
+              li
+                a(href='/users/dashboard') Perfil
+              li
+                a(href='/users/logout') Salir
+            else
+              li
+                a(href='#', data-toggle='modal', data-target='#modalSignUp') Registrate
+              li
+                a(href='#', data-toggle='modal', data-target='#modalSignIn') Inicia sesion
+          i.fa.fa-shopping-cart.fa-2x(aria-hidden="true", style='float: right; color: white; margin-top: 10px;')
+          span#itemCount
+            //- span.glyphicon.glyphicon-shopping-cart(style='font-size: 20pt; float: right; color: white; margin-top: 10px;')
+
+    //- button.add Add to cart
+
+    #modalSignIn.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;
+            h4#myModalLabel.modal-title Inicia sesion
+          .modal-body
+            form(action="/users/signIn", method="POST").form-horizontal
+              //- .form-group
+              //-   label.col-sm-2.control-label(for='email') Email:
+              //-   .col-sm-10
+              //-     input#email.form-control(type='email', name="email" placeholder='Email', required)
+              .form-group
+                label.col-sm-2.control-label(for='username') Usuario:
+                .col-sm-10
+                  input#username.form-control(type='text', name="username", placeholder='Nombre de usuario', required)
+              .form-group
+                label.col-sm-2.control-label(for='password') Contraseña:
+                .col-sm-10
+                  input#password.form-control(type='password', name="password" placeholder='Password', required)
+              //- .form-group
+              //-   .col-sm-offset-2.col-sm-10
+              //-     .checkbox
+              //-       label
+              //-         input(type='checkbox')
+              //-         |  Remember me
+              .modal-footer
+                button.btn.btn-primary(type='submit') Iniciar sesion
+
+    #modalSignUp.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;
+            h4#myModalLabel.modal-title Registrate
+          .modal-body
+            form(action="/users/signUp", method="POST").form-horizontal
+              .form-group
+                label.col-sm-2.control-label(for='name') Nombre:
+                .col-sm-10
+                  input#name.form-control(type='text', name="name", placeholder='Nombre', required)
+              .form-group
+                label.col-sm-2.control-label(for='lastName') Apellido:
+                .col-sm-10
+                  input#lastName.form-control(type='text', name="lastName", placeholder='Apellido', required)
+              .form-group
+                label.col-sm-2.control-label(for='username') Usuario:
+                .col-sm-10
+                  input#username.form-control(type='text', name="username", placeholder='Nombre de usuario', required)
+              .form-group
+                label.col-sm-2.control-label(for='email') Email:
+                .col-sm-10
+                  input#email.form-control(type='email', name="email", placeholder='Email', required)
+              .form-group
+                label.col-sm-2.control-label(for='password') Contraseña:
+                .col-sm-10
+                  input#password.form-control(type='password', name="password", placeholder='Contraseña', required)
+              //- .form-group
+              //-   .col-sm-offset-2.col-sm-10
+              //-     .checkbox
+              //-       label
+              //-         input(type='checkbox')
+              //-         | Remember me
+              .modal-footer
+                button.btn.btn-primary(type='submit') Registrarme
+    script(type="text/javascript").
+      var itemCount = 0;
+      $('.add').click(function (){
+        itemCount ++;
+        console.log(itemCount);
+        $('#itemCount').html(itemCount).css('display', 'block');
+      });
+    //- .container
+    //-   .hr
+    //-   .footer
+    //-     .row
+    //-       .col-lg-12
+    //-         .p Copyright &copy; Your Website 2014
+    block content
