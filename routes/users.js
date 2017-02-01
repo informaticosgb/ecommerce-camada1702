@@ -4,6 +4,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var User = require('../models/users');
+var Product = require('../models/products');
 var ensure = require('../middlewares/ensure');
 
 mongoose.connect('mongodb://localhost:27017/ecommerce');
@@ -42,7 +43,10 @@ passport.deserializeUser(function(id, done) {
 
 // dashboard
 router.get('/dashboard', ensure.ensureAuthenticated, function (req, res, next) {
-  res.render('dashboard', { shopTitle: 'Ecommerce Camada 1702', isAuth: req.isAuthenticated() });
+  Product.find({ owner: req.user.id }, function (err, products) {
+    if (err) throw err;
+    res.render('dashboard', { shopTitle: 'Ecommerce Camada 1702', isAuth: req.isAuthenticated(), products: products });
+  });
 });
 
 router.post('/signUp', function (req, res, next) {
@@ -53,7 +57,7 @@ router.post('/signUp', function (req, res, next) {
 
   User.createUser(user, function (err, user) {
     if (err) console.error(err);
-    console.log(user);
+    // console.log(user);
   });
 
   res.redirect('/');
@@ -66,6 +70,20 @@ router.post('/signIn', passport.authenticate( 'local', { successRedirect:'/users
 router.get('/logout', function(req, res){
 	req.logout();
 	res.redirect('/');
+});
+
+router.post('/newProduct', function (req, res) {
+  var product = new Product({
+    name: req.body.name, description: req.body.description, category: req.body.category,
+    price: req.body.price, stock: req.body.stock, privacyStatus: req.body.privacyStatus, owner: req.user.id
+  });
+
+  Product.createProduct(product, function (err, product) {
+    if (err) console.error(err);
+    console.log(product);
+  });
+
+  res.redirect('/users/dashboard');
 });
 
 module.exports = router;

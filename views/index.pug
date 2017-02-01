@@ -1,31 +1,29 @@
 extends layout
 
 block content
+  //- p #{products}
   .container
-    .row
-      .col-md-9
-        .row
-          .col-sm-4.col-lg-4.col-md-4
-            .thumbnail
-              img(src='http://placehold.it/320x150', alt='')
-              .caption
-                .h4.pull-right $24.99
-                .h4
-                  .a(href='#') First Product
-                .p
-                  See more snippets like this online store item at
-                  .a(target='_blank', href='http://www.bootsnipp.com') Bootsnipp - http://bootsnipp.com
-              .ratings
-                .p.pull-right 15 reviews
-                .p
-                  .span.glyphicon.glyphicon-star
-                  .span.glyphicon.glyphicon-star
-                  .span.glyphicon.glyphicon-star
-                  .span.glyphicon.glyphicon-star
-                  .span.glyphicon.glyphicon-star
-          //- .col-sm-4.col-lg-4.col-md-4
-          //-   .h4
-          //-     .a(href='#') Like this template?
-          //-   .p If you like this template, then check out
-          //-     .a(target='_blank', href='http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/') this tutorial on how to build a working review system for your online store!
-          //-   .a.btn.btn-primary(target='_blank', href='http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/') View Tutorial
+    each val in products
+      .column
+        .col-sm-4.col-lg-4.col-md-4
+          .thumbnail
+            img(src='http://placehold.it/320x150', alt='')
+            .caption
+              h4.pull-left #{val.category}
+              h4.pull-right.text-primary $#{val.price}
+              h4.text-center
+                strong
+                  a(href='#') #{val.name}
+              hr
+              h4.text-center Detalles
+              .text-center.text-info #{val.description}
+              strong.text-success Publicado el: #{val.publishedAt}
+                //- a(target='_blank', href='http://www.bootsnipp.com') Bootsnipp - http://bootsnipp.com
+            //- .ratings
+            //-   p.pull-right 15 reviews
+            //-   p
+            //-     span.glyphicon.glyphicon-star
+            //-     span.glyphicon.glyphicon-star
+            //-     span.glyphicon.glyphicon-star
+            //-     span.glyphicon.glyphicon-star
+            //-     span.glyphicon.glyphicon-star

@@ -109,6 +109,56 @@ html
               //-         | Remember me
               .modal-footer
                 button.btn.btn-primary(type='submit') Registrarme
+
+    #modalAdd.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;
+            h4#myModalLabel.modal-title Nuevo producto
+          .modal-body
+            form(action="/users/newProduct", method="POST").form-horizontal
+              .form-group
+                label.col-sm-2.control-label(for='name') Nombre:
+                .col-sm-10
+                  input#name.form-control(type='text', name="name", placeholder='Nombre', required)
+              .form-group
+                label.col-sm-2.control-label(for='description') Descripcion:
+                .col-sm-10
+                  input#lastName.form-control(type='text', name="description", placeholder='Descripcion', required)
+              .form-group
+                label.col-sm-2.control-label(for='category') Categoria:
+                .col-sm-10
+                  //- input#username.form-control(type='text', name="category", placeholder='Categoria', required)
+                  select(name="category")#category.form-control
+                    option(name="tinto", value="tinto") Tinto
+                    option(name="blanco", value="blanco") Blanco
+                    option(name="rose", value="rose") Rose
+                    option(name="espumante", value="espumante") Espumante
+              .form-group
+                label.col-sm-2.control-label(for='price') Precio:
+                .col-sm-10
+                  input#price.form-control(type='number', name="price", min="1", max="999999" placeholder='Precio', required)
+              .form-group
+                label.col-sm-2.control-label(for='stock') Stock:
+                .col-sm-10
+                  input#stock.form-control(type='number', name="stock", min="1", max="999999" placeholder='Stock', required)
+              .form-group
+                label.col-sm-2.control-label(for='privacyStatus') Privacidad:
+                .col-sm-10
+                  //- input#username.form-control(type='text', name="category", placeholder='Categoria', required)
+                  select(name="privacyStatus")#privacyStatus.form-control
+                    option(name="public", value="public") Publico
+                    option(name="private", value="private") Privado
+              //- .form-group
+              //-   .col-sm-offset-2.col-sm-10
+              //-     .checkbox
+              //-       label
+              //-         input(type='checkbox')
+              //-         | Remember me
+              .modal-footer
+                button.btn.btn-primary(type='submit') Cargar nuevo producto
     script(type="text/javascript").
       var itemCount = 0;
       $('.add').click(function (){

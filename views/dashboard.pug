@@ -1,11 +1,92 @@
 extends layout
 
 block content
-  h1.text-center Aún no tienes productos agregados.
+  //- h1.text-center Aún no tienes productos agregados.
     //- a(href="#") Se el primero en agregar
+  //-   .panel.panel-primary(style="text-align: center")
+  //-     .panel-heading
+  //-     .panel-body
+  //-       p #{products}
+  //-     table.table
   .container
-    .panel.panel-primary(style="text-align: center")
-      .panel-heading 
-      .panel-body
-        p
-      table.table
+    each val in products
+      .column
+        .col-sm-4.col-lg-4.col-md-4
+          .thumbnail(style="min-height: 400px; height: 400px;")
+            img(src='http://placehold.it/320x150', alt='')
+            .caption
+              h4.pull-left #{val.category}
+              h4.pull-right.text-primary $#{val.price}
+              h4.text-center
+                strong
+                  a.btn.btn-info.btn-xs(href='#', data-toggle='modal', data-target='#modalEdit') #{val.name}
+              hr
+              h4.text-center Detalles
+              .text-center.text-info #{val.description}
+
+              h4.text-success Publicado el: #{val.publishedAt}
+              //- a.btn.btn-info.btn-xs(href='#', data-toggle='modal', data-target='#modalEdit') Editar
+            //- .ratings
+            //-   p.pull-right 15 reviews
+            //-   p
+            //-     span.glyphicon.glyphicon-star
+            //-     span.glyphicon.glyphicon-star
+            //-     span.glyphicon.glyphicon-star
+            //-     span.glyphicon.glyphicon-star
+            //-     span.glyphicon.glyphicon-star
+  #modalEdit.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') &times;
+          h4#myModalLabel.modal-title Editar
+        .modal-body
+          form(action="/users/newProduct", method="POST").form-horizontal
+            .form-group
+              label.col-sm-2.control-label(for='name') Nombre:
+              .col-sm-10
+                input#name.form-control(type='text', name="name", placeholder='Nombre del producto', required)
+            .form-group
+              label.col-sm-2.control-label(for='description') Descripcion:
+              .col-sm-10
+                input#description.form-control(type='text', name="description", placeholder='Descripcion', required)
+            .form-group
+              label.col-sm-2.control-label(for='category') Categoria:
+              .col-sm-10
+                //- input#username.form-control(type='text', name="category", placeholder='Categoria', required)
+                select(name="category")#category.form-control
+                  option(name="tinto", value="tinto") Tinto
+                  option(name="blanco", value="blanco") Blanco
+                  option(name="rose", value="rose") Rose
+                  option(name="espumante", value="espumante") Espumante
+            .form-group
+              label.col-sm-2.control-label(for='price') Precio:
+              .col-sm-10
+                input#price.form-control(type='number', name="price", min="1", max="999999" placeholder='Precio', required)
+            .form-group
+              label.col-sm-2.control-label(for='stock') Stock:
+              .col-sm-10
+                input#stock.form-control(type='number', name="stock", min="1", max="999999" placeholder='Stock', required)
+            .form-group
+              label.col-sm-2.control-label(for='privacyStatus') Privacidad:
+              .col-sm-10
+                //- input#username.form-control(type='text', name="category", placeholder='Categoria', required)
+                select(name="privacyStatus")#privacyStatus.form-control
+                  option(name="public", value="public") Publico
+                  option(name="private", value="private") Privado
+            //- .form-group
+            //-   .col-sm-offset-2.col-sm-10
+            //-     .checkbox
+            //-       label
+            //-         input(type='checkbox')
+            //-         | Remember me
+            .modal-footer
+              button.btn.btn-primary(type='submit') Cargar nuevo producto
+  script(type="text/javascript").
+    var products = !{JSON.stringify(products)};
+    for (var i in products) {
+      $('#name').attr('placeholder', products[i].name);
+      /*console.log(products[i].name);*/
+    }
+    /*console.log($('#price').attr('placeholder'));*/
