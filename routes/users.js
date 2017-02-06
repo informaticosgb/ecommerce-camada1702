@@ -6,6 +6,9 @@ var mongoose = require('mongoose');
 var User = require('../models/users');
 var Product = require('../models/products');
 var ensure = require('../middlewares/ensure');
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/' });
+var fs = require('fs');
 
 mongoose.connect('mongodb://localhost:27017/ecommerce');
 
@@ -72,10 +75,34 @@ router.get('/logout', function(req, res){
 	res.redirect('/');
 });
 
-router.post('/newProduct', function (req, res) {
+router.post('/newProduct', upload.single('image'), function (req, res) {
+
+  var dir = 'uploads/' + req.user.id.toString() + '/';
+  if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+  };
+
+  /** When using the "single"
+  data come in "req.file" regardless of the attribute "name". **/
+  var tmp_path = req.file.path;
+  /** The original name of the uploaded file
+  stored in the variable "originalname". **/
+  var target_path = dir + req.file.originalname;
+  /** A better way to copy the uploaded file. **/
+  var src = fs.createReadStream(tmp_path);
+  var dest = fs.createWriteStream(target_path);
+  src.pipe(dest);
+  src.on('end', function(err) {
+    fs.unlink(tmp_path, function (err) {
+      if (err) throw err;
+      // console.error("Only .png files are allowed!");
+    });
+  });
+
   var product = new Product({
     name: req.body.name, description: req.body.description, category: req.body.category,
-    price: req.body.price, stock: req.body.stock, privacyStatus: req.body.privacyStatus, owner: req.user.id
+    image: req.user.id.toString() + '/' + req.file.originalname.toString(), price: req.body.price,
+    stock: req.body.stock, privacyStatus: req.body.privacyStatus, owner: req.user.id, ownerName: req.user.username
   });
 
   Product.createProduct(product, function (err, product) {
@@ -84,6 +111,23 @@ router.post('/newProduct', function (req, res) {
   });
 
   res.redirect('/users/dashboard');
+});
+
+router.post('/cart', function (req, res) {
+
+  console.log(req.body._id);
+  var addToSet = {
+    $addToSet: {
+      cart: { _id: req.body._id, qty: parseInt(req.body.qty) }
+    }
+  };
+
+  User.update({ _id: req.user.id }, addToSet, function (err, ok) {
+    if (err) throw err;
+    console.log(ok);
+  });
+
+  res.redirect('/');
 });
 
 module.exports = router;

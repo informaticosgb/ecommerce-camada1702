@@ -1,29 +1,81 @@
 extends layout
 
 block content
-  //- p #{products}
   .container
     each val in products
       .column
         .col-sm-4.col-lg-4.col-md-4
           .thumbnail
-            img(src='http://placehold.it/320x150', alt='')
-            .caption
+            - var img = val.image;
+            img(src=img, alt='')
+            .caption(style="height: 350px;").text-center
               h4.pull-left #{val.category}
               h4.pull-right.text-primary $#{val.price}
               h4.text-center
-                strong
+                strong(style="text-transform: uppercase;")
                   a(href='#') #{val.name}
               hr
               h4.text-center Detalles
               .text-center.text-info #{val.description}
-              strong.text-success Publicado el: #{val.publishedAt}
-                //- a(target='_blank', href='http://www.bootsnipp.com') Bootsnipp - http://bootsnipp.com
-            //- .ratings
-            //-   p.pull-right 15 reviews
-            //-   p
-            //-     span.glyphicon.glyphicon-star
-            //-     span.glyphicon.glyphicon-star
-            //-     span.glyphicon.glyphicon-star
-            //-     span.glyphicon.glyphicon-star
-            //-     span.glyphicon.glyphicon-star
+              //- strong.text-success Publicado el: #{val.publishedAt}
+              - var _id = val._id;
+              - var owner = val.owner;
+              if isAuth
+                if ( owner != userId )
+                  //- hr
+                  //- strong(id="qty-" + _id) Cantidad:
+                  hr
+                  //- action="/users/cart", method="POST"
+                  form.text-center(id="addToCart", action="/users/cart", method="POST")
+                    //- .form-group
+                    //-   label.text-center(for='qty') Cantidad:
+                    //-   input#qty.form-control.input-sm(type='number', name="qty", min=1, max=999, value=1, required)
+                    //- input(id="qty", type="number", min=0, max=999, name="qty") Cantidad
+                    input(type="hidden", value=_id, name="_id", class=_id)
+                    button(id="btn-" + _id, type="submit").btn.btn-primary Añadir al carrito
+                else
+                  hr
+                  strong.text-info Este producto es tuyo, no hace falta que lo compres.
+                  //- .ratings
+                  //-   p.pull-right 15 reviews
+                  //-   p
+                  //-     span.glyphicon.glyphicon-star
+                  //-     span.glyphicon.glyphicon-star
+                  //-     span.glyphicon.glyphicon-star
+                  //-     span.glyphicon.glyphicon-star
+                  //-     span.glyphicon.glyphicon-star
+              else
+                hr
+                strong.text-info Debes iniciar sesion para comprar este producto.
+              hr
+              .text-center.text-info Publicado por: #{val.ownerName}
+  script(type="text/javascript").
+    var products = !{JSON.stringify(products)};
+    /*var qty = parseInt($('#qty').val());
+    for (var i in products) {
+      $("#btn-" + products[i]._id).each(function (){
+        $(this).click(function (e) {
+          qty++;*/
+          /*$("#qty-" + products[i]._id).each(function (){
+            console.log($(this));*/
+            /*$("#qty-" + products[i]._id).html(qty);*/
+          /*});*/
+
+          /*$("form").submit(function (e){
+            e.preventDefault();
+            $.ajax({
+             type: 'POST',
+             url: '/users/cart',
+             data: $(this).serialize(),
+             success: function () {
+               console.log({ data: data });
+             }
+           });
+          });*/
+
+          /*$.post('/users/cart', $("form").serialize()).done(function (data){
+            console.log(data);
+          });*/
+        /*});
+      });
+    };*/

@@ -6,7 +6,8 @@ var Product = require('../models/products');
 router.get('/', function(req, res, next) {
   Product.find({ privacyStatus: 'public' }, function (err, products) {
     if (err) throw err;
-    res.render('index', { shopTitle: 'Ecommerce Camada 1702', isAuth: req.isAuthenticated(), products: products });
+    return res.render('index', { shopTitle: 'Ecommerce Camada 1702', isAuth: req.isAuthenticated(), products: products,
+    userId: req.isAuthenticated() ? req.user.id : "" });
   });
 
 });

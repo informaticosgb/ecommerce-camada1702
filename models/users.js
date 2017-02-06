@@ -19,6 +19,9 @@ var UserSchema = mongoose.Schema({
 	password: {
 		type: String
 	},
+	cart: [],
+	bought: [],
+	removed: [],
 	joined_at: {
 		type: String,
 		// default: moment().format("DD-MM-YYYY HH:mm:ss")

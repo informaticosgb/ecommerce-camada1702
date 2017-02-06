@@ -118,7 +118,7 @@ html
               span(aria-hidden='true') &times;
             h4#myModalLabel.modal-title Nuevo producto
           .modal-body
-            form(action="/users/newProduct", method="POST").form-horizontal
+            form(action="/users/newProduct", method="POST", enctype="multipart/form-data").form-horizontal
               .form-group
                 label.col-sm-2.control-label(for='name') Nombre:
                 .col-sm-10
@@ -127,6 +127,10 @@ html
                 label.col-sm-2.control-label(for='description') Descripcion:
                 .col-sm-10
                   input#lastName.form-control(type='text', name="description", placeholder='Descripcion', required)
+              .form-group
+                label.col-sm-2.control-label(for="image") Foto:
+                .col-sm-10
+                  input#image(type="file", name="image")
               .form-group
                 label.col-sm-2.control-label(for='category') Categoria:
                 .col-sm-10

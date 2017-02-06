@@ -1,30 +1,22 @@
 extends layout
 
 block content
-  //- h1.text-center Aún no tienes productos agregados.
-    //- a(href="#") Se el primero en agregar
-  //-   .panel.panel-primary(style="text-align: center")
-  //-     .panel-heading
-  //-     .panel-body
-  //-       p #{products}
-  //-     table.table
   .container
     each val in products
       .column
         .col-sm-4.col-lg-4.col-md-4
-          .thumbnail(style="min-height: 400px; height: 400px;")
-            img(src='http://placehold.it/320x150', alt='')
-            .caption
+          .thumbnail
+            - var img = val.image;
+            img(src="../" + img, alt='')
+            .caption(style="height: 300px;").text-center
               h4.pull-left #{val.category}
               h4.pull-right.text-primary $#{val.price}
               h4.text-center
-                strong
+                strong(style="text-transform: uppercase;")
                   a.btn.btn-info.btn-xs(href='#', data-toggle='modal', data-target='#modalEdit') #{val.name}
               hr
               h4.text-center Detalles
               .text-center.text-info #{val.description}
-
-              h4.text-success Publicado el: #{val.publishedAt}
               //- a.btn.btn-info.btn-xs(href='#', data-toggle='modal', data-target='#modalEdit') Editar
             //- .ratings
             //-   p.pull-right 15 reviews
@@ -82,7 +74,7 @@ block content
             //-         input(type='checkbox')
             //-         | Remember me
             .modal-footer
-              button.btn.btn-primary(type='submit') Cargar nuevo producto
+              button.btn.btn-primary(type='submit') Guardar cambios
   script(type="text/javascript").
     var products = !{JSON.stringify(products)};
     for (var i in products) {

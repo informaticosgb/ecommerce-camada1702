@@ -24,6 +24,9 @@ var ProductSchema = mongoose.Schema({
   owner: {
     type: mongoose.Schema.ObjectId
   },
+	ownerName: {
+		type: String
+	},
 	privacyStatus: {
 		type: String,
 		default: 'public'
