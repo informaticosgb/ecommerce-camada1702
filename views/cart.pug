@@ -1,0 +1,53 @@
+extends layout
+
+block content
+  //- p #{cart}
+  //- each val in cart
+  //- p #{val._id}
+  //- link(href='//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css', rel='stylesheet')
+  .container
+    table#cart.table.table-hover.table-condensed
+      thead
+        tr
+          th(style='width:50%') Product
+          th(style='width:10%') Price
+          th(style='width:8%') Quantity
+          //- th.text-center(style='width:22%') Subtotal
+          th(style='width:10%')
+      tbody
+        - var total = 0;
+        each val in cart
+          - var subtotal = parseInt(val.price);
+          - total += subtotal;
+          tr
+            td(data-th='Product')
+              .row
+                .col-sm-2.hidden-xs
+                  - var image = val.image;
+                  img.img-responsive(src="../" + image, alt='...')
+                .col-sm-10
+                  h4.nomargin #{val.name}
+                  p #{val.description}
+            td(data-th='Price') $#{val.price}
+            //- td(data-th='Quantity')
+              input.form-control.text-center(type='number', value='1')
+            td.text-center(data-th='Subtotal') 1
+            td.actions(data-th='')
+              //- button.btn.btn-info.btn-sm
+              //-   i.fa.fa-refresh
+              button.btn.btn-danger.btn-sm
+                i.fa.fa-trash-o
+        tfoot
+          tr.visible-xs
+            td.text-center
+              strong Total: $#{total}
+          tr
+            td
+              a.btn.btn-warning(href='#')
+                i.fa.fa-angle-left Continue Shopping
+            td.hidden-xs(colspan='2')
+            td.hidden-xs.text-center
+              strong Total: $#{total}
+            td
+              a.btn.btn-success.btn-block(href='#') Checkout
+                i.fa.fa-angle-right

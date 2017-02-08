@@ -30,13 +30,15 @@ html
               li
                 a(href='/users/dashboard') Perfil
               li
+                a(href='/users/cart')
+                  i.fa.fa-shopping-cart.fa-2x(aria-hidden="true", style='float: right; color: white; margin-top: 10px;')
+              li
                 a(href='/users/logout') Salir
             else
               li
                 a(href='#', data-toggle='modal', data-target='#modalSignUp') Registrate
               li
                 a(href='#', data-toggle='modal', data-target='#modalSignIn') Inicia sesion
-          i.fa.fa-shopping-cart.fa-2x(aria-hidden="true", style='float: right; color: white; margin-top: 10px;')
           span#itemCount
             //- span.glyphicon.glyphicon-shopping-cart(style='font-size: 20pt; float: right; color: white; margin-top: 10px;')
 

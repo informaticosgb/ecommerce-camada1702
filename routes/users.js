@@ -113,9 +113,23 @@ router.post('/newProduct', upload.single('image'), function (req, res) {
   res.redirect('/users/dashboard');
 });
 
+router.get('/cart', ensure.ensureAuthenticated, function (req, res) {
+  var ids = [];
+  User.find({ _id: req.user.id }, function (err, user) {
+    if (err) throw err;
+    for (var i = 0; i < user[0].cart.length; i++) {
+      ids.push(user[0].cart[i]._id);
+    };
+    Product.find({ _id: { $in: ids } }, function (err, products) {
+      if (err) throw err;
+      res.render('cart', { shopTitle: 'Ecommerce Camada 1702', isAuth: req.isAuthenticated(), cart: products });
+    });
+  });
+});
+
 router.post('/cart', function (req, res) {
 
-  console.log(req.body._id);
+  // console.log(req.body._id);
   var addToSet = {
     $addToSet: {
       cart: { _id: req.body._id, qty: parseInt(req.body.qty) }
