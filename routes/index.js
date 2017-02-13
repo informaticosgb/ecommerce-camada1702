@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   Product.find({ privacyStatus: 'public' }, function (err, products) {
     if (err) throw err;
     return res.render('index', { shopTitle: 'Ecommerce Camada 1702', isAuth: req.isAuthenticated(), products: products,
-    userId: req.isAuthenticated() ? req.user.id : "" });
+    userId: req.isAuthenticated() ? req.user.id : "", role: req.isAuthenticated() ? req.user.role : "" });
   });
 
 });

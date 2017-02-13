@@ -19,6 +19,10 @@ var UserSchema = mongoose.Schema({
 	password: {
 		type: String
 	},
+	role: {
+		type: String,
+		default: 'user'
+	},
 	cart: [],
 	bought: [],
 	removed: [],

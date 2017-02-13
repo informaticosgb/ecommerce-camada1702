@@ -1,6 +1,37 @@
 extends layout
 
 block content
-  h1 #{ shopTitle }
-  h2 #{ adminTitle }
-  h3 #{ user }
+  //- h1 #{ shopTitle }
+  //- h2 #{ adminTitle }
+  //- h3 #{ user }
+  .container
+    table#cart.table.table-hover.table-condensed
+      thead
+        tr
+          th(style='width:50%') Nombre
+          //- th(style='width:8%') Email
+          th(style='width:10%') Rol
+          //- th.text-center(style='width:22%') Subtotal
+          th(style='width:10%')
+      tbody
+        each val in users
+          form(action="/admin/update", method="POST").form-horizontal
+            tr
+              td(data-th='Product')
+                .row
+                  .col-sm-2.hidden-xs
+
+                  .col-sm-10
+                    h4.nomargin #{val.name} #{val.lastName}
+                    p #{val.email}
+              td(data-th='Rol')
+                strong#role #{val.role}
+              td.actions(data-th='')
+                - var _id = val._id;
+                - var role = val.role;
+                input(type="hidden", value=_id, name="_id")
+                input(type="hidden", value=role, name="role")
+                button(type="submit").btn.btn-info.btn-sm
+                  i.fa.fa-refresh
+                //- button.btn.btn-danger.btn-sm
+                //-   i.fa.fa-trash-o

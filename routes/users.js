@@ -48,7 +48,7 @@ passport.deserializeUser(function(id, done) {
 router.get('/dashboard', ensure.ensureAuthenticated, function (req, res, next) {
   Product.find({ owner: req.user.id }, function (err, products) {
     if (err) throw err;
-    res.render('dashboard', { shopTitle: 'Ecommerce Camada 1702', isAuth: req.isAuthenticated(), products: products });
+    res.render('dashboard', { shopTitle: 'Ecommerce Camada 1702', isAuth: req.isAuthenticated(), products: products, role: req.isAuthenticated() ? req.user.role : "" });
   });
 });
 

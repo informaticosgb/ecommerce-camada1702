@@ -24,7 +24,19 @@ html
           a.navbar-brand(href='/') #{ shopTitle }
         #bs-example-navbar-collapse-1.collapse.navbar-collapse.nav.navbar-nav.navbar-right
           ul.nav.navbar-nav
-            if isAuth
+            if isAuth && role !== "superAdmin"
+              li
+                a(href='#', data-toggle='modal', data-target='#modalAdd') Añadir
+              li
+                a(href='/users/dashboard') Perfil
+              li
+                a(href='/users/cart')
+                  i.fa.fa-shopping-cart.fa-2x(aria-hidden="true", style='float: right; color: white; margin-top: 10px;')
+              li
+                a(href='/users/logout') Salir
+            else if isAuth && role === "superAdmin"
+              li
+                a(href='/admin') Admin
               li
                 a(href='#', data-toggle='modal', data-target='#modalAdd') Añadir
               li
