@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  .container
+    each val in products
+      .column
+        .col-sm-4.col-lg-4.col-md-4
+          .thumbnail
+            - var img = val.image;
+            img(src="../" + img, alt='')
+            .caption(style="height: 300px;").text-center
+              h4.pull-left #{val.category}
+              h4.pull-right.text-primary $#{val.price}
+              h4.text-center
+                strong(style="text-transform: uppercase;")
+                  a.btn.btn-info.btn-xs(href='#', data-toggle='modal', data-target='#modalEdit') #{val.name}
+              hr
+              h4.text-center Detalles
+              .text-center.text-info #{val.description}

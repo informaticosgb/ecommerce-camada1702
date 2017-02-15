@@ -12,4 +12,21 @@ router.get('/', function(req, res, next) {
 
 });
 
+// router.get('/search', function (req, res) {
+//
+// });
+
+router.post('/search', function (req, res) {
+
+  Product.find({ name: { $regex : ".*" + req.body.query + ".*" } }, function (err, products) {
+    if (err) throw err;
+    console.log(products);
+
+    res.render('search', { shopTitle: 'Ecommerce Camada 1702', isAuth: req.isAuthenticated(), products: products,
+    userId: req.isAuthenticated() ? req.user.id : "", role: req.isAuthenticated() ? req.user.role : "" });
+    // res.redirect('/search');
+  });
+
+});
+
 module.exports = router;

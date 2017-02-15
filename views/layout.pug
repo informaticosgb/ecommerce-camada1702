@@ -22,37 +22,41 @@ html
             .span.icon-bar
             .span.icon-bar
           a.navbar-brand(href='/') #{ shopTitle }
+        .input-group.col-lg-4
+          form(action="/search", method="POST").form-horizontal
+            input.form-control(type='text', name="query", placeholder='Buscar')
+            button.btn.btn-info(type='submit')
+              i.glyphicon.glyphicon-search
         #bs-example-navbar-collapse-1.collapse.navbar-collapse.nav.navbar-nav.navbar-right
-          ul.nav.navbar-nav
-            if isAuth && role !== "superAdmin"
-              li
-                a(href='#', data-toggle='modal', data-target='#modalAdd') Añadir
-              li
-                a(href='/users/dashboard') Perfil
-              li
-                a(href='/users/cart')
-                  i.fa.fa-shopping-cart.fa-2x(aria-hidden="true", style='float: right; color: white; margin-top: 10px;')
-              li
-                a(href='/users/logout') Salir
-            else if isAuth && role === "superAdmin"
-              li
-                a(href='/admin') Admin
-              li
-                a(href='#', data-toggle='modal', data-target='#modalAdd') Añadir
-              li
-                a(href='/users/dashboard') Perfil
-              li
-                a(href='/users/cart')
-                  i.fa.fa-shopping-cart.fa-2x(aria-hidden="true", style='float: right; color: white; margin-top: 10px;')
-              li
-                a(href='/users/logout') Salir
-            else
-              li
-                a(href='#', data-toggle='modal', data-target='#modalSignUp') Registrate
-              li
-                a(href='#', data-toggle='modal', data-target='#modalSignIn') Inicia sesion
-          span#itemCount
-            //- span.glyphicon.glyphicon-shopping-cart(style='font-size: 20pt; float: right; color: white; margin-top: 10px;')
+          if isAuth && role !== "superAdmin"
+            li
+              a(href='#', data-toggle='modal', data-target='#modalAdd') Añadir
+            li
+              a(href='/users/dashboard') Perfil
+            li
+              a(href='/users/cart')
+                i.fa.fa-shopping-cart.fa-2x(aria-hidden="true", style='float: right; color: white; margin-top: 10px;')
+            li
+              a(href='/users/logout') Salir
+          else if isAuth && role === "superAdmin"
+            li
+              a(href='/admin') Admin
+            li
+              a(href='#', data-toggle='modal', data-target='#modalAdd') Añadir
+            li
+              a(href='/users/dashboard') Perfil
+            li
+              a(href='/users/cart')
+                i.fa.fa-shopping-cart.fa-2x(aria-hidden="true", style='float: right; color: white; margin-top: 10px;')
+            li
+              a(href='/users/logout') Salir
+          else
+            li
+              a(href='#', data-toggle='modal', data-target='#modalSignUp') Registrate
+            li
+              a(href='#', data-toggle='modal', data-target='#modalSignIn') Inicia sesion
+        span#itemCount
+          //- span.glyphicon.glyphicon-shopping-cart(style='font-size: 20pt; float: right; color: white; margin-top: 10px;')
 
     //- button.add Add to cart
 
